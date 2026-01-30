@@ -1,6 +1,6 @@
 ## CRUD básico de inserção e listagem de alunos em Python
 ### Projeto básico para desenvolvimento de habilidades fundamentais em Python
-> Uma evolução do [Extrato de Gastos]([https://github.com/AugustoEng?tab=repositories](https://github.com/AugustoEng/Extrato-de-Gastos.git))
+> Uma evolução do [Extrato de Gastos](https://github.com/AugustoEng/Extrato-de-Gastos)
 
 Armazena os dados em um arquivo txt, "alunos.txt"
 
