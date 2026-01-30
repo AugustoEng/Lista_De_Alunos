@@ -14,21 +14,27 @@ def listar():
         for num in conteudo:
             if ";" in num:
                 partes = num.split(";")
-                for dado in partes:
+                print(f"{partes[0]}\n-> Matricula: {partes[3]}-> Idade: {partes[1]}\n-> Curso: {partes[2]}\n")
                     
-                    if dado == partes[-1]:
-                        dado = dado.strip()
-                        print(f"{dado}", end="")
-                    else:
-                        dado = dado.strip()
-                        print(f"{dado} - ", end="")
-                print("")
             else:
                 print(f"{num}", end="")
 
-def adicionar(nome, idade, curso, matricula):
+def adicionar(nome, idade, curso):
     nome = (f"{nome}").capitalize()
-    final = (f"{nome} ; {idade} ; {curso} ; {matricula}")
+
+    with open("alunos.txt", "r") as banco:
+        conteudo = banco.readlines()
+        contador = 1
+        for linha in conteudo:
+            contador += 1
+        if contador < 10:
+            contador = f"000{contador}"
+        elif contador < 100:
+            contador = f"00{contador}"
+        elif contador < 1000:
+            contador = f"0{contador}"
+
+    final = (f"{nome} ; {idade} ; {curso} ; {contador}")
     with open("alunos.txt", "a") as banco:
         banco.write(f"{final}\n")
         print(f"{nome} Adicionado com sucesso")
@@ -44,11 +50,30 @@ def apagar(nome, matricula):
             if nome and matricula in num:
                 conteudo.pop(indice)
 
-    with open("aunos.txt", "w") as banco:
+    with open("alunos.txt", "w") as banco:
         for num in conteudo:
             banco.write(num)
 
     print(f"{nome} removido com sucesso")
+
+def media_etaria():
+    with open("alunos.txt", "r") as banco:
+        conteudo = banco.readlines()
+        somaIdades = 0
+        contador = 0
+        for linha in conteudo:
+            if ";" in linha:
+                dado = linha.split(";")
+                try:
+                    somaIdades += int(dado[1].strip())
+                    contador += 1
+                except (ValueError, IndexError):
+                    continue
+
+        if contador > 0:
+            return int(somaIdades / contador)
+        else:
+            return 0
 
 
 try:
@@ -77,17 +102,10 @@ while True:
         limpar()
         print("ADICIONAR ALUNO\n")
         nome = input("Nome: ")
-        while True: 
-            idade = input("Idade: ")
-            if idade != int:
-                limpar()
-                print("Digite um numeru válido")
-            else:
-                break
+        idade = int(input("Idade: "))
         curso = input("Curso: ")
-        matricula = input("Matricula: ")
 
-        adicionar(nome, idade, curso, matricula)
+        adicionar(nome, idade, curso)
         confirmar()
     
     elif resposta == "3":
@@ -100,5 +118,21 @@ while True:
         apagar(nome, matricula)
         confirmar()
 
+    elif resposta == "4":
+        limpar()
+        print("FAIXA ETÁRIA DOS ALUNOS\n")
+        FaixaEtaria = media_etaria()
+        print(f"A faixa etaria dos alunos é de: {FaixaEtaria}")
+        confirmar()
+
+    elif resposta == "5":
+        limpar()
+        print("Programa fechado")
+        break
+
+    else:
+        limpar()
+        print("Digite uma alternativa válida")
+        confirmar()
 
 
